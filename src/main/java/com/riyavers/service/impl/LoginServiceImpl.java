@@ -26,9 +26,27 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	private LoginMapper loginMapper;
+	
+    public LoginResponceDto login(LoginRequestDto dto) {
+		try {
+			Login login = loginRepository.findByUsername( dto.getUsername() );
+			if ( login != null && ( login.getPassword().equals( dto.getPassword() ) && login.getRole().equals("Receptionist"))){
+				Employee employee = employeeRepository.findByEmail( dto.getUsername() );
+				LoginResponceDto response = loginMapper.toLoginResponseDto( login );
+//				response.setBranchId( employee.getBranch().getId() );
+//				response.setBranchName( employee.getBranch().getName() );
+				response.setLoginId( employee.getId() );
+				return response;
+				
+			}
+		} catch ( Exception e ) {
+			log.error( e.getMessage(), e );
+		}
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	@Override
-	public LoginResponceDto login( LoginRequestDto dto ) {
+/*	public LoginResponceDto login( LoginRequestDto dto ) {
 		try {
 			Login login = loginRepository.findByUsername( dto.getUsername() );
 			if ( login != null && ( login.getPassword().equals( dto.getPassword() ) && login.getRole().equals( "Receptionist" ) ) ) {
@@ -44,6 +62,6 @@ public class LoginServiceImpl implements LoginService {
 			log.error( e.getMessage(), e );
 		}
 		return null;
-	}
+	}*/
 
 }
