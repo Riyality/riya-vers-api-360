@@ -19,7 +19,7 @@ import lombok.Setter;
 public class Employee {
 
 	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY )
+	@GeneratedValue( strategy = GenerationType.AUTO )
 	private Long id;
 
 	@Column( name = "first_name" )
@@ -33,6 +33,9 @@ public class Employee {
 
 	@Column( name = "contact" )
 	private String contact;
+	
+	@Column( name = "role" )
+	private String role;
 
 	@ManyToOne
 	@JoinColumn( name = "branch" )
